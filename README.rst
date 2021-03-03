@@ -69,6 +69,7 @@ check_docker Usage
                          | --secure-connection [<ip/host address>:<port>]]
                          [--binary_units | --decimal_units] [--timeout TIMEOUT]
                          [--containers CONTAINERS [CONTAINERS ...]] [--present]
+                         [--whitelist WHITE_LIST [WHITE_LIST ...]] [--present]
                          [--threads THREADS] [--cpu WARN:CRIT]
                          [--memory WARN:CRIT:UNITS] [--status STATUS] [--health]
                          [--uptime WARN:CRIT] [--image-age WARN:CRIT] [--version]
@@ -93,6 +94,8 @@ check_docker Usage
                           One or more RegEx that match the names of the
                           container(s) to check. If omitted all containers are
                           checked. (default: ['all'])
+    --whitelist WHITE_LIST [WHITE_LIST ...]
+                          One or more container(s) to avoid check.
     --present             Modifies --containers so that each RegEx must match at
                           least one container.
     --threads THREADS     This + 1 is the maximum number of concurent
