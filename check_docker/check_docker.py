@@ -322,7 +322,12 @@ def get_containers(names, require_present):
     all_container_names = set(get_ps_name(x['Names']) for x in containers_list)
 
     if 'all' in names:
-        return all_container_names
+        if white_list:
+           for whitelisted_container in white_list:
+              if whitelisted_container in all_container_names: all_container_names.remove(whitelisted_container)
+              return all_container_names
+        else:
+            return all_container_names
 
     filtered = set()
     for matcher in names:
@@ -746,6 +751,14 @@ def process_args(args):
                         help='One or more RegEx that match the names of the container(s) to check. If omitted all containers are checked. (default: %(default)s)')
 
     # Container name
+    parser.add_argument('--whitelist',
+                        dest='white_list',
+                        action='store',
+                        nargs='+',
+                        type=str,
+                        help='One or more container(s) to avoid check.')
+
+    # Container name
     parser.add_argument('--present',
                         dest='present',
                         default=False,
@@ -851,6 +864,9 @@ def process_args(args):
 
     global timeout
     timeout = parsed_args.timeout
+
+    global white_list
+    white_list = parsed_args.white_list
 
     global daemon
     global connection_type
